@@ -10,15 +10,6 @@ RUN gem install bundler -v '2.2.27'
 
 # UPDATE NODE:
 RUN curl -sL https://deb.nodesource.com/setup_12.x |  bash -
-RUN apt-get install -y nodejs
-# YARN:
-RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
-RUN echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
-RUN apt update && apt install yarn
-# Fix issue with sassc gem
-RUN bundle config --local build.sassc --disable-march-tune-native
-RUN apt-get install -y awscli
-#END OF ORIGINAL
 
 RUN bundle config set without 'development test'
 WORKDIR "/app"
@@ -26,13 +17,6 @@ COPY . .
 
 RUN bundle install # --path=vendor
 ENV RAILS_SERVE_STATIC_FILES false
-
-ENV EXECJS_RUNTIME=Disabled
-ENV WEBPACKER_PRECOMPILE=false
-ENV NODE_ENV=production
-
-RUN yarn config set ignore-engines true
-RUN bundle exec rails assets:precompile
 
 #Rails App
 RUN rm -f /etc/service/nginx/down
