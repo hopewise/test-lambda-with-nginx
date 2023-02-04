@@ -13,7 +13,7 @@ RUN curl -sL https://deb.nodesource.com/setup_12.x |  bash -
 
 RUN bundle config set without 'development test'
 WORKDIR "/app"
-COPY . .
+#COPY . .
 
 RUN bundle install # --path=vendor
 ENV RAILS_SERVE_STATIC_FILES false
